@@ -1,14 +1,9 @@
 {
-  "devDependencies": {
-    "webpack": "5.21.2",
-    "webpack-cli": "4.5.0",
-    "clean-webpack-plugin": "3.0.0"
-  },
+  "name": "cpp-webpack-loader",
+  "version": "0.0.1",
+  "description": "C/C++ to WebAssembly bytecode webpack loader",
+  "bin": "index.js",
   "dependencies": {
-    "chalk": "4.1.0",
     "comment-parser": "1.1.2"
-  },
-  "scripts": {
-    "build": "webpack --mode=production"
   }
 }
