@@ -1,7 +1,6 @@
 const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
-const comment_parser = require('comment-parser');
 
 
 
@@ -9,64 +8,23 @@ module.exports = function WebpackLoader(source)
 {
 	const loader_options = this.loaders?.[this.loaderIndex]?.options || {};
 
-	const [ parsed_comments ] =
-		comment_parser
-			.parse(source)
-			.filter((comment) => comment.description.includes('@renderity/cpp-webpack-loader'));
+	const source_options = JSON.parse(source);
 
 	const options =
 	{
 		execute: null,
 		target: null,
-		watchDirectories: [],
 		watchFiles: [],
+		watchDirectories: [],
 	};
 
-	Object.assign(options, loader_options);
-
-	if (parsed_comments)
-	{
-		parsed_comments.tags.forEach
-		(
-			(tag) =>
-			{
-				switch (tag.name)
-				{
-				case 'execute':
-				{
-					options.execute = tag.description;
-
-					break;
-				}
-
-				case 'target':
-				{
-					options.target = tag.description;
-
-					break;
-				}
-
-				case 'watchDirectories':
-				case 'watchFiles':
-
-					options[tag.name].push
-					(
-						...JSON.parse(tag.description),
-					);
-
-					break;
-
-				default:
-				}
-			},
-		);
-	}
+	Object.assign(options, loader_options, source_options);
 
 
-
-	options.watchDirectories.forEach((elm) => this.addContextDependency(elm));
 
 	options.watchFiles.forEach((elm) => this.addDependency(elm));
+
+	options.watchDirectories.forEach((elm) => this.addContextDependency(elm));
 
 	if (options.execute)
 	{

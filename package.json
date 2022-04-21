@@ -2,8 +2,5 @@
   "name": "cpp-webpack-loader",
   "version": "0.0.1",
   "description": "C/C++ to WebAssembly bytecode webpack loader",
-  "bin": "index.js",
-  "dependencies": {
-    "comment-parser": "1.1.2"
-  }
+  "bin": "index.js"
 }
